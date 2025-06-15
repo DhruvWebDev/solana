@@ -175,6 +175,11 @@ pub type UnixTimestamp = i64;
 /// A representation of network time.
 ///
 /// All members of `Clock` start from 0 upon network boot.
+
+//This struct is often shared between on-chain programs and the runtime, or returned to clients.
+//That means the binary layout matters—every byte, every alignment must match exactly.
+//#[repr(C)] ensures that if both sides expect the same C ABI layout, everything reads and writes cleanly without offsets getting messed up.
+
 #[repr(C)]
 #[derive(Serialize, Deserialize, Debug, CloneZeroed, Default, PartialEq, Eq)]
 pub struct Clock {

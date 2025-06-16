@@ -13,7 +13,7 @@ use {
     },
 };
 
-/// Account information
+//But sometimes, you want interior mutability — where a struct is immutable, but you still want to mutate some internal value./// Account information
 #[derive(Clone)]
 #[repr(C)]
 pub struct AccountInfo<'a> {
@@ -193,6 +193,7 @@ impl<'a> AccountInfo<'a> {
         }
     }
 
+    //this is for constructing the accountInfo struct 
     pub fn new(
         key: &'a Pubkey,
         is_signer: bool,
@@ -257,6 +258,7 @@ impl<'a, T: Account> IntoAccountInfo<'a> for (&'a Pubkey, &'a mut T) {
 /// Convert (&'a Pubkey, bool, &'a mut T)  where T: Account into an
 /// `AccountInfo`.
 impl<'a, T: Account> IntoAccountInfo<'a> for (&'a Pubkey, bool, &'a mut T) {
+    //HERE WE first import the necessary details to construct the AccountInfo<T>
     fn into_account_info(self) -> AccountInfo<'a> {
         let (key, is_signer, account) = self;
         let (lamports, data, owner, executable, rent_epoch) = account.get();
